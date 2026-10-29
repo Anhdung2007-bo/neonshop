@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="vi" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeonShop - Sàn Thương Mại Điện Tử Tương Lai</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Canvas Confetti for Celebration Effect -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <!-- Tailwind Config for Custom Colors & Glow Effects -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            black: '#080811',
+                            dark: '#0f0f1d',
+                            card: '#16162a',
+                            pink: '#ff007f',
+                            cyan: '#00f3ff',
+                            purple: '#9d00ff',
+                            yellow: '#ffe600',
+                            border: '#2a2a4a'
+                        }
+                    },
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        rajdhani: ['Rajdhani', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'neon-pink': '0 0 15px rgba(255, 0, 127, 0.5), 0 0 30px rgba(255, 0, 127, 0.2)',
+                        'neon-cyan': '0 0 15px rgba(0, 243, 255, 0.5), 0 0 30px rgba(0, 243, 255, 0.2)',
+                        'neon-purple': '0 0 15px rgba(157, 0, 255, 0.5), 0 0 30px rgba(157, 0, 255, 0.2)',
+                        'neon-card': '0 8px 32px 0 rgba(0, 243, 255, 0.1)',
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 2s infinite alternate',
+                        'flicker': 'flicker 1.5s infinite',
+                        'scanline': 'scanline 8s linear infinite',
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%': { boxShadow: '0 0 5px #00f3ff, inset 0 0 5px #00f3ff' },
+                            '100%': { boxShadow: '0 0 20px #ff007f, inset 0 0 10px #ff007f' }
+                        },
+                        flicker: {
+                            '0%, 100%': { opacity: 1 },
+                            '41.99%': { opacity: 1 },
+                            '42%': { opacity: 0.4 },
+                            '43%': { opacity: 1 },
+                            '45%': { opacity: 0.3 },
+                            '46%': { opacity: 1 },
+                        },
+                        scanline: {
+                            '0%': { transform: 'translateY(-100%)' },
+                            '100%': { transform: 'translateY(1000%)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #080811;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f1f3a;
+            border-radius: 4px;
+            border: 1px solid #00f3ff;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff007f;
+        }
+
+        /* Cyber Glassmorphism & Cyber Lines */
+        .glass-panel {
+            background: rgba(22, 22, 42, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 243, 255, 0.15);
+        }
+        .cyber-border-pink {
+            border: 1px solid #ff007f;
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.3);
+        }
+        .cyber-border-cyan {
+            border: 1px solid #00f3ff;
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+        }
+        
+        /* Neon Text Glow */
+        .glow-text-pink {
+            text-shadow: 0 0 8px rgba(255, 0, 127, 0.7), 0 0 20px rgba(255, 0, 127, 0.4);
+        }
+        .glow-text-cyan {
+            text-shadow: 0 0 8px rgba(0, 243, 255, 0.7), 0 0 20px rgba(0, 243, 255, 0.4);
+        }
+        
+        /* Cyber Cut Corner Buttons */
+        .cyber-btn {
+            position: relative;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+            transition: all 0.3s ease;
+        }
+        .cyber-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(45deg, transparent 5% #00f3ff 5%);
+            z-index: -1;
+        }
+
+        /* Scanline Overlay */
+        .scanlines {
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0, 0, 0, 0.3) 50%,
+                rgba(0, 0, 0, 0.3)
+            );
+            background-size: 100% 4px;
+        }
+
+        /* Product Card Grid Background Grid */
+        .cyber-grid-bg {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="bg-cyber-black text-slate-100 font-sans min-h-screen relative overflow-x-hidden cyber-grid-bg selection:bg-cyber-pink selection:text-white">
+
+    <!-- Ambient Grid & Scanlines Effect -->
+    <div class="fixed inset-0 scanlines pointer-events-none z-50 opacity-30"></div>
+    <div class="fixed -top-40 -left-40 w-96 h-96 bg-cyber-pink opacity-20 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="fixed -bottom-40 -right-40 w-96 h-96 bg-cyber-cyan opacity-20 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <!-- ==================== HEADER & NAVIGATION ==================== -->
+    <header class="sticky top-0 z-40 glass-panel border-b border-cyber-border/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20 gap-4">
+                
+                <!-- Logo -->
+                <div class="flex items-center gap-3 cursor-pointer" onclick="filterCategory('all')">
+                    <div class="w-10 h-10 rounded-lg bg-gradient-to-tr from-cyber-pink to-cyber-cyan p-0.5 animate-pulse-glow">
+                        <div class="w-full h-full bg-cyber-black rounded-[7px] flex items-center justify-center">
+                            <i class="fa-solid fa-bolt text-cyber-cyan text-xl"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="font-orbitron text-2xl font-black tracking-wider bg-gradient-to-r from-cyber-cyan via-white to-cyber-pink bg-clip-text text-transparent glow-text-cyan animate-flicker">
+                            NEON<span class="text-cyber-pink">SHOP</span>
+                        </span>
+                        <span class="block text-[9px] font-orbitron tracking-[0.25em] text-cyber-cyan/70 uppercase">Cyber Commerce 2026</span>
+                    </div>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="hidden md:flex flex-1 max-w-xl mx-6 relative">
+                    <div class="relative w-full">
+                        <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Tìm kiếm vũ khí, phụ kiện, thời trang Neon..." 
+                            class="w-full bg-cyber-dark/80 border border-cyber-border focus:border-cyber-cyan rounded-lg py-2.5 pl-11 pr-10 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyber-cyan transition-all shadow-inner">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-500 text-sm"></i>
+                        <button onclick="clearSearch()" id="clearSearchBtn" class="hidden absolute right-3 top-3 text-slate-500 hover:text-cyber-pink">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Actions -->
+                <div class="flex items-center gap-3 sm:gap-4">
+                    
+                    <!-- UI Sound Toggle Button -->
+                    <button id="soundToggleBtn" onclick="toggleAudio()" title="Âm thanh UI" 
+                        class="p-2.5 rounded-lg border border-cyber-border hover:border-cyber-cyan text-slate-400 hover:text-cyber-cyan transition-all glass-panel">
+                        <i id="soundIcon" class="fa-solid fa-volume-xmark"></i>
+                    </button>
+
+                    <!-- Wishlist Button -->
+                    <button onclick="openWishlistModal()" class="relative p-2.5 rounded-lg border border-cyber-border hover:border-cyber-pink text-slate-400 hover:text-cyber-pink transition-all glass-panel">
+                        <i class="fa-regular fa-heart text-lg"></i>
+                        <span id="wishlistBadge" class="absolute -top-1.5 -right-1.5 w-5 h-5 bg-cyber-pink text-white text-[10px] font-bold rounded-full flex items-center justify-center font-orbitron border border-cyber-black scale-0 transition-transform">0</span>
+                    </button>
+
+                    <!-- Cart Drawer Trigger Button -->
+                    <button onclick="toggleCartDrawer(true)" class="relative flex items-center gap-2 px-3.5 py-2 rounded-lg bg-cyber-dark border border-cyber-cyan/50 text-cyber-cyan hover:bg-cyber-cyan hover:text-cyber-black font-semibold transition-all shadow-neon-cyan group">
+                        <i class="fa-solid fa-cart-shopping text-base group-hover:scale-110 transition-transform"></i>
+                        <span class="hidden sm:inline font-orbitron text-xs uppercase tracking-wider">Giỏ Hàng</span>
+                        <span id="cartBadge" class="w-5 h-5 bg-cyber-pink text-white text-[11px] font-black rounded-full flex items-center justify-center font-orbitron border border-cyber-black">0</span>
+                    </button>
+
+                    <!-- User Account -->
+                    <button onclick="openUserModal()" class="flex items-center gap-2 p-1.5 pl-2.5 pr-2 rounded-lg border border-cyber-border hover:border-cyber-purple glass-panel transition-all">
+                        <span class="text-xs font-orbitron hidden lg:inline text-slate-300">CYBER_USER</span>
+                        <div class="w-8 h-8 rounded-md bg-cyber-purple/30 border border-cyber-purple flex items-center justify-center text-cyber-purple font-bold">
+                            <i class="fa-solid fa-user-astronaut text-sm"></i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Search Bar -->
+            <div class="pb-3 md:hidden">
+                <div class="relative w-full">
+                    <input type="text" id="mobileSearchInput" oninput="handleSearch(true)" placeholder="Tìm kiếm thiết bị Neon..." 
+                        class="w-full bg-cyber-dark border border-cyber-border focus:border-cyber-cyan rounded-lg py-2 pl-10 pr-4 text-xs text-slate-200 placeholder-slate-500 focus:outline-none">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-500 text-xs"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category Nav Strip -->
+        <nav class="border-t border-cyber-border/40 bg-cyber-black/60 overflow-x-auto no-scrollbar">
+            <div class="max-w-7xl mx-auto px-4 flex items-center gap-2 py-2 text-xs font-orbitron whitespace-nowrap">
+                <button onclick="filterCategory('all')" class="category-tab active flex items-center gap-2 px-3.5 py-1.5 rounded-md border border-cyber-cyan/40 bg-cyber-cyan/10 text-cyber-cyan hover:bg-cyber-cyan/20 transition-all">
+                    <i class="fa-solid fa-border-all"></i> Tất Cả
+                </button>
+                <button onclick="filterCategory('cyber-gear')" class="category-tab flex items-center gap-2 px-3.5 py-1.5 rounded-md border border-cyber-border text-slate-400 hover:text-cyber-cyan hover:border-cyber-cyan/40 transition-all">
+                    <i class="fa-solid fa-vr-cardboard"></i> Thiết Bị Cyber
+                </button>
+                <button onclick="filterCategory('neon-fashion')" class="category-tab flex items-center gap-2 px-3.5 py-1.5 rounded-md border border-cyber-border text-slate-400 hover:text-cyber-pink hover:border-cyber-pink/40 transition-all">
+                    <i class="fa-solid fa-shirt"></i> Thời Trang Neon
+                </button>
+                <button onclick="filterCategory('gaming')" class="category-tab flex items-center gap-2 px-3.5 py-1.5 rounded-md border border-cyber-border text-slate-400 hover:text-cyber-purple hover:border-cyber-purple/40 transition-all">
+                    <i class="fa-solid fa-gamepad"></i> Gaming Gear
+                </button>
+                <button onclick="filterCategory('components')" class="category-tab flex items-center gap-2 px-3.5 py-1.5 rounded-md border border-cyber-border text-slate-400 hover:text-cyber-yellow hover:border-cyber-yellow/40 transition-all">
+                    <i class="fa-solid fa-microchip"></i> Linh Kiện Sci-Fi
+                </button>
+                <button onclick="filterCategory('accessories')" class="category-tab flex items-center gap-2 px-3.5 py-1.5 rounded-md border border-cyber-border text-slate-400 hover:text-cyber-cyan hover:border-cyber-cyan/40 transition-all">
+                    <i class="fa-solid fa-headphones"></i> Tech Accessories
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-10">
+
+        <!-- HERO BANNER / FLASH SALE CAMPAIGN -->
+        <section class="relative rounded-2xl overflow-hidden glass-panel border border-cyber-pink/30 shadow-neon-pink p-6 sm:p-10">
+            <!-- Background Glow & Cyber Grid -->
+            <div class="absolute inset-0 bg-gradient-to-r from-cyber-black via-cyber-dark/90 to-transparent z-10"></div>
+            <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1400&q=80" alt="Cyberpunk Banner" class="absolute inset-0 w-full h-full object-cover object-center opacity-40 mix-blend-luminosity">
+
+            <div class="relative z-20 max-w-2xl space-y-4">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyber-pink/20 border border-cyber-pink text-cyber-pink text-xs font-orbitron font-bold tracking-widest uppercase animate-pulse">
+                    <i class="fa-solid fa-fire text-cyber-yellow"></i> Flash Sale Mega Neon 2026
+                </div>
+
+                <h1 class="font-orbitron text-3xl sm:text-5xl font-black text-white leading-tight">
+                    NÂNG CẤP <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyber-cyan via-white to-cyber-pink glow-text-pink">KỶ NGUYÊN 2026</span>
+                </h1>
+
+                <p class="text-slate-300 text-sm sm:text-base font-rajdhani font-semibold">
+                    Giảm tới <span class="text-cyber-yellow font-bold text-lg font-orbitron">50%</span> cho các siêu phẩm Cyber Gear, Gaming Rig & Phụ kiện Hologram đỉnh cao. Số lượng có hạn!
+                </p>
+
+                <!-- Countdown Timer -->
+                <div class="pt-2">
+                    <div class="text-xs font-orbitron text-cyber-cyan/80 mb-2 uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-regular fa-clock"></i> Thời gian Flash Sale còn lại:
+                    </div>
+                    <div class="flex items-center gap-2 sm:gap-3 font-orbitron" id="countdownTimer">
+                        <div class="bg-cyber-black/80 border border-cyber-cyan/60 rounded-lg p-2.5 min-w-[55px] text-center shadow-neon-cyan">
+                            <span id="cd-hours" class="block text-xl font-extrabold text-cyber-cyan">08</span>
+                            <span class="text-[9px] text-slate-400 block uppercase">Giờ</span>
+                        </div>
+                        <span class="text-cyber-pink font-bold text-xl animate-pulse">:</span>
+                        <div class="bg-cyber-black/80 border border-cyber-pink/60 rounded-lg p-2.5 min-w-[55px] text-center shadow-neon-pink">
+                            <span id="cd-minutes" class="block text-xl font-extrabold text-cyber-pink">42</span>
+                            <span class="text-[9px] text-slate-400 block uppercase">Phút</span>
+                        </div>
+                        <span class="text-cyber-pink font-bold text-xl animate-pulse">:</span>
+                        <div class="bg-cyber-black/80 border border-cyber-yellow/60 rounded-lg p-2.5 min-w-[55px] text-center">
+                            <span id="cd-seconds" class="block text-xl font-extrabold text-cyber-yellow">15</span>
+                            <span class="text-[9px] text-slate-400 block uppercase">Giây</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA Button -->
+                <div class="pt-3">
+                    <a href="#productShowcase" class="cyber-btn inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-cyber-pink to-cyber-purple text-white font-orbitron text-sm font-bold tracking-wider hover:opacity-90 transition-all shadow-neon-pink">
+                        <span>KHÁM PHÁ NGAY</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PRODUCT SHOWCASE & FILTERS ==================== -->
+        <section id="productShowcase" class="space-y-6">
+            
+            <!-- Section Header & Controls -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-cyber-border/60 pb-4">
+                <div>
+                    <h2 class="font-orbitron text-2xl font-bold text-white flex items-center gap-2">
+                        <span class="w-2.5 h-6 bg-cyber-cyan inline-block rounded-sm"></span>
+                        DANH SÁCH SẢN PHẨM NEON
+                    </h2>
+                    <p class="text-xs text-slate-400 font-rajdhani mt-1">Trang bị công nghệ futuristic tân tiến hàng đầu năm 2026</p>
+                </div>
+
+                <!-- Filter Controls -->
+                <div class="flex flex-wrap items-center gap-3">
+                    <!-- Price Range Filter Dropdown -->
+                    <div class="relative">
+                        <select id="priceFilter" onchange="applyFilters()" class="bg-cyber-dark border border-cyber-border text-xs text-slate-300 font-orbitron rounded-lg px-3 py-2 focus:border-cyber-cyan focus:outline-none">
+                            <option value="all">Mọi mức giá</option>
+                            <option value="under-2m">Dưới 2,000,000đ</option>
+                            <option value="2m-5m">2,000,000đ - 5,000,000đ</option>
+                            <option value="over-5m">Trên 5,000,000đ</option>
+                        </select>
+                    </div>
+
+                    <!-- Sort Dropdown -->
+                    <div class="relative">
+                        <select id="sortBy" onchange="applyFilters()" class="bg-cyber-dark border border-cyber-border text-xs text-slate-300 font-orbitron rounded-lg px-3 py-2 focus:border-cyber-cyan focus:outline-none">
+                            <option value="popular">Nổi bật nhất</option>
+                            <option value="price-asc">Giá: Thấp đến Cao</option>
+                            <option value="price-desc">Giá: Cao đến Thấp</option>
+                            <option value="rating">Đánh giá cao nhất</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Dynamic Content Generated via JS -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="hidden text-center py-16 glass-panel rounded-xl">
+                <i class="fa-solid fa-ghost text-5xl text-cyber-pink mb-4 animate-bounce"></i>
+                <h3 class="font-orbitron text-lg font-bold text-slate-200">Không Tìm Thấy Sản Phẩm!</h3>
+                <p class="text-slate-400 text-sm mt-1">Thử thay đổi từ khóa tìm kiếm hoặc bộ lọc của bạn.</p>
+                <button onclick="resetFilters()" class="mt-4 px-4 py-2 bg-cyber-cyan/20 border border-cyber-cyan text-cyber-cyan font-orbitron text-xs rounded-lg hover:bg-cyber-cyan hover:text-black transition-all">
+                    Xóa Bộ Lọc
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="mt-20 border-t border-cyber-border/80 glass-panel bg-cyber-black/90">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="space-y-3">
+                    <div class="font-orbitron text-xl font-bold text-cyber-cyan glow-text-cyan">NEON<span class="text-cyber-pink">SHOP</span></div>
+                    <p class="text-xs text-slate-400 font-rajdhani leading-relaxed">Sàn thương mại điện tử mua sắm trang thiết bị Cyberpunk & Công nghệ Futuristic số 1 khu vực Tân Neo-Tokyo năm 2026.</p>
+                </div>
+                <div>
+                    <h4 class="font-orbitron text-xs font-bold text-slate-200 uppercase tracking-wider mb-3 text-cyber-pink">Danh Mục Hot</h4>
+                    <ul class="space-y-2 text-xs text-slate-400">
+                        <li><a href="#" class="hover:text-cyber-cyan transition-colors">Kính VR Neural Link</a></li>
+                        <li><a href="#" class="hover:text-cyber-cyan transition-colors">Áo Khác LED Smart Cyber</a></li>
+                        <li><a href="#" class="hover:text-cyber-cyan transition-colors">Bàn Phím Cơ Quang Học Hologram</a></li>
+                        <li><a href="#" class="hover:text-cyber-cyan transition-colors">Chip AI Tăng Cường Não</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-orbitron text-xs font-bold text-slate-200 uppercase tracking-wider mb-3 text-cyber-cyan">Hỗ Trợ Khách Hàng</h4>
+                    <ul class="space-y-2 text-xs text-slate-400">
+                        <li><a href="#" class="hover:text-cyber-pink transition-colors">Bảo Hành CyberCare 24/7</a></li>
+                        <li><a href="#" class="hover:text-cyber-pink transition-colors">Vận Chuyển Bằng Drone</a></li>
+                        <li><a href="#" class="hover:text-cyber-pink transition-colors">Quy Trình Hoàn Tiền Crypto</a></li>
+                        <li><a href="#" class="hover:text-cyber-pink transition-colors">Điều Khoản Mạng Lưới</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-orbitron text-xs font-bold text-slate-200 uppercase tracking-wider mb-3 text-cyber-yellow">Đăng Ký Nhận Mã Cyber Vouchers</h4>
+                    <div class="flex gap-2">
+                        <input type="email" placeholder="Nhập Email Cyber của bạn..." class="bg-cyber-dark border border-cyber-border rounded text-xs px-3 py-2 w-full text-slate-200 focus:outline-none focus:border-cyber-cyan">
+                        <button class="bg-cyber-pink text-white font-orbitron text-xs px-3 py-2 rounded hover:bg-cyber-pink/80 transition-all">GỬI</button>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-cyber-border/40 text-center text-xs text-slate-500 font-orbitron">
+                &copy; 2026 NEONSHOP CYBER COMMERCE INC. ALL RIGHTS RESERVED.
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== MODAL CHI TIẾT SẢN PHẨM ==================== -->
+    <div id="productModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-cyber-black/80 backdrop-blur-md transition-all">
+        <div class="relative w-full max-w-3xl glass-panel border border-cyber-cyan/50 rounded-2xl overflow-hidden shadow-neon-cyan animate-pulseGlow max-h-[90vh] overflow-y-auto">
+            <!-- Close Button -->
+            <button onclick="closeProductModal()" class="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-cyber-black/80 border border-cyber-pink text-cyber-pink hover:bg-cyber-pink hover:text-white flex items-center justify-center transition-all">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div id="modalContent" class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 sm:p-8">
+                <!-- Modal Dynamic Content Goes Here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SIDE DRAWER GIỎ HÀNG ==================== -->
+    <div id="cartDrawer" class="fixed inset-y-0 right-0 z-50 w-full max-w-md glass-panel border-l border-cyber-cyan/40 shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+        <!-- Header Cart -->
+        <div class="p-5 border-b border-cyber-border flex items-center justify-between bg-cyber-dark/80">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-cart-shopping text-cyber-cyan text-xl"></i>
+                <h3 class="font-orbitron font-bold text-lg text-white">GIỎ HÀNG <span class="text-cyber-pink">CYBER</span></h3>
+            </div>
+            <button onclick="toggleCartDrawer(false)" class="text-slate-400 hover:text-cyber-pink text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Cart Items List -->
+        <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-4 space-y-4">
+            <!-- Dynamic Cart Items -->
+        </div>
+
+        <!-- Cart Footer & Checkout -->
+        <div class="p-5 border-t border-cyber-border bg-cyber-dark/95 space-y-4">
+            <!-- Coupon Code Section -->
+            <div>
+                <label class="block text-[11px] font-orbitron text-slate-400 mb-1">MÃ GIẢM GIÁ (Thử: NEON2026)</label>
+                <div class="flex gap-2">
+                    <input type="text" id="couponInput" placeholder="Nhập mã voucher..." class="flex-1 bg-cyber-black border border-cyber-border rounded px-3 py-1.5 text-xs text-white uppercase focus:outline-none focus:border-cyber-cyan">
+                    <button onclick="applyCoupon()" class="bg-cyber-cyan/20 border border-cyber-cyan text-cyber-cyan font-orbitron text-xs px-3 py-1.5 rounded hover:bg-cyber-cyan hover:text-black font-semibold transition-all">
+                        ÁP DỤNG
+                    </button>
+                </div>
+                <div id="couponMessage" class="text-[11px] mt-1 font-orbitron hidden"></div>
+            </div>
+
+            <!-- Price Breakdown -->
+            <div class="space-y-1.5 text-xs font-orbitron">
+                <div class="flex justify-between text-slate-400">
+                    <span>Tạm tính:</span>
+                    <span id="subtotalPrice">0đ</span>
+                </div>
+                <div class="flex justify-between text-cyber-pink">
+                    <span>Giảm giá Voucher:</span>
+                    <span id="discountPrice">-0đ</span>
+                </div>
+                <div class="flex justify-between text-base font-bold text-white pt-2 border-t border-cyber-border">
+                    <span>Tổng Thanh Toán:</span>
+                    <span id="totalPrice" class="text-cyber-cyan glow-text-cyan">0đ</span>
+                </div>
+            </div>
+
+            <!-- Checkout Button -->
+            <button onclick="processCheckout()" class="cyber-btn w-full py-3.5 bg-gradient-to-r from-cyber-pink via-cyber-purple to-cyber-cyan text-white font-orbitron font-bold text-sm tracking-wider uppercase shadow-neon-pink hover:opacity-90 transition-all flex items-center justify-center gap-2">
+                <i class="fa-solid fa-credit-card"></i>
+                <span>Thanh Toán CyberPay</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Backdrop Overlay for Cart Drawer -->
+    <div id="cartBackdrop" onclick="toggleCartDrawer(false)" class="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm hidden transition-opacity"></div>
+
+    <!-- ==================== MODAL WISHLIST ==================== -->
+    <div id="wishlistModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-cyber-black/80 backdrop-blur-md">
+        <div class="relative w-full max-w-2xl glass-panel border border-cyber-pink/50 rounded-2xl p-6 shadow-neon-pink max-h-[80vh] flex flex-col">
+            <div class="flex items-center justify-between pb-4 border-b border-cyber-border">
+                <h3 class="font-orbitron font-bold text-lg text-cyber-pink flex items-center gap-2">
+                    <i class="fa-solid fa-heart"></i> DANH SÁCH YÊU THÍCH
+                </h3>
+                <button onclick="closeWishlistModal()" class="text-slate-400 hover:text-cyber-pink text-xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div id="wishlistItemsContainer" class="flex-1 overflow-y-auto py-4 space-y-3">
+                <!-- Dynamic Wishlist Items -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== JAVASCRIPT LOGIC ==================== -->
+    <script>
+        // Audio Web Synthesizer for Cyberpunk UI Sounds
+        let audioEnabled = false;
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (!audioEnabled) return;
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                const now = audioCtx.currentTime;
+
+                if (type === 'hover') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(400, now);
+                    osc.frequency.exponentialRampToValueAtTime(800, now + 0.05);
+                    gain.gain.setValueAtTime(0.02, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+                    osc.start(now);
+                    osc.stop(now + 0.05);
+                } else if (type === 'click') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(600, now);
+                    osc.frequency.exponentialRampToValueAtTime(200, now + 0.08);
+                    gain.gain.setValueAtTime(0.05, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+                    osc.start(now);
+                    osc.stop(now + 0.08);
+                } else if (type === 'success') {
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(523.25, now); // C5
+                    osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+                    osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
+                    gain.gain.setValueAtTime(0.04, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+                    osc.start(now);
+                    osc.stop(now + 0.35);
+                }
+            } catch (e) {
+                console.log('Audio playback context error:', e);
+            }
+        }
+
+        function toggleAudio() {
+            audioEnabled = !audioEnabled;
+            const icon = document.getElementById('soundIcon');
+            const btn = document.getElementById('soundToggleBtn');
+            if (audioEnabled) {
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                icon.className = 'fa-solid fa-volume-high text-cyber-cyan';
+                btn.classList.add('border-cyber-cyan', 'shadow-neon-cyan');
+                playSound('success');
+            } else {
+                icon.className = 'fa-solid fa-volume-xmark text-slate-400';
+                btn.classList.remove('border-cyber-cyan', 'shadow-neon-cyan');
+            }
+        }
+
+        // ==================== PRODUCT DATA ====================
+        const productsData = [
+            {
+                id: 'p1',
+                name: 'Kính Cyber VR Neural Link Pro',
+                category: 'cyber-gear',
+                price: 4990000,
+                originalPrice: 6990000,
+                rating: 4.9,
+                reviewsCount: 128,
+                image: 'https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=600&q=80',
+                description: 'Kính thực tế ảo thế hệ thứ 5 tích hợp AI truyền tín hiệu sóng não siêu tốc, hiển thị Hologram 8K không độ trễ.',
+                colors: ['Xanh Neon', 'Hồng Neon', 'Đen Tuyền'],
+                specs: { 'Màn hình': 'OLED 8K 240Hz', 'Kết nối': 'Quantum 6G Wireless', 'Trọng lượng': '180g' }
+            },
+            {
+                id: 'p2',
+                name: 'Áo Khác LED Smart Cyberjacket X',
+                category: 'neon-fashion',
+                price: 2450000,
+                originalPrice: 3200000,
+                rating: 4.7,
+                reviewsCount: 95,
+                image: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=600&q=80',
+                description: 'Áo khoác phong cách Cyberpunk chống nước tích hợp dải sợi quang LED RGB đổi màu theo nhịp tim và âm nhạc.',
+                colors: ['Cyber Cyan', 'Neon Purple'],
+                specs: { 'Chất liệu': 'Graphene Waterproof', 'Pin LED': '48 Giờ', 'Chống nước': 'IP68' }
+            },
+            {
+                id: 'p3',
+                name: 'Bàn Phím Cơ Hologram Cyberboard K9',
+                category: 'gaming',
+                price: 3150000,
+                originalPrice: 4500000,
+                rating: 5.0,
+                reviewsCount: 210,
+                image: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=600&q=80',
+                description: 'Bàn phím cơ Switch Quang học từ tính siêu nhạy, vỏ hợp kim Titanium trong suốt chiếu sáng Cyber Glow.',
+                colors: ['Titan Crystal', 'Neon Violet'],
+                specs: { 'Switch': 'Cyber Magnetic Optical', 'Khung': 'Titanium CNC', 'LED': 'Per-Key Cyber RGB' }
+            },
+            {
+                id: 'p4',
+                name: 'Chuột Gaming Laser Neural Precision',
+                category: 'gaming',
+                price: 1290000,
+                originalPrice: 1800000,
+                rating: 4.8,
+                reviewsCount: 88,
+                image: 'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&w=600&q=80',
+                description: 'Chuột chơi game trang bị cảm biến Quantum 32,000 DPI, thiết kế khung xương kim loại siêu nhẹ.',
+                colors: ['Black Cyber', 'Silver Chrome'],
+                specs: { 'DPI': '32,000 DPI Quantum', 'Tần số quét': '8000Hz', 'Trọng lượng': '49g' }
+            },
+            {
+                id: 'p5',
+                name: 'Tai Nghe Cyberpunk Wireless Acoustic 7.1',
+                category: 'accessories',
+                price: 1890000,
+                originalPrice: 2500000,
+                rating: 4.6,
+                reviewsCount: 64,
+                image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80',
+                description: 'Tai nghe chụp tai chống ồn chủ động ANC thế hệ mới, giả lập âm thanh vòm không gian 3D Holographic.',
+                colors: ['Neon Cyan', 'Electric Pink'],
+                specs: { 'Màng loa': '50mm Neodymium', 'Pin': '60 Giờ', 'Công nghệ': 'ANC Cyber Noise Cancel' }
+            },
+            {
+                id: 'p6',
+                name: 'Chip AI Tăng Cường Bộ Nhớ MemoryX',
+                category: 'components',
+                price: 8500000,
+                originalPrice: 10500000,
+                rating: 4.9,
+                reviewsCount: 340,
+                image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80',
+                description: 'Module vi xử lý AI cấy ghép hỗ trợ xử lý dữ liệu ma trận thời gian thực cho các dàn Cyber Rig cao cấp.',
+                colors: ['Gold Edition', 'Cyber Silver'],
+                specs: { 'Xung nhịp': '12.5 GHz Overclock', 'Tiến trình': '1nm Quantum', 'Băng thông': '10TB/s' }
+            },
+            {
+                id: 'p7',
+                name: 'Mũ Bảo Hiểm LED Cyberpunk Rider 2026',
+                category: 'neon-fashion',
+                price: 3600000,
+                originalPrice: 4200000,
+                rating: 4.8,
+                reviewsCount: 150,
+                image: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=600&q=80',
+                description: 'Mũ bảo hiểm thông minh kính HUD hiển thị tốc độ & bản đồ vệ tinh dạng Hologram chống lóa.',
+                colors: ['Dark Matter', 'Neon Gold'],
+                specs: { 'Kính': 'Smart HUD Matrix Display', 'Kết nối': 'Bluetooth 5.4', 'Chuẩn an toàn': 'DOT & CyberSafe' }
+            },
+            {
+                id: 'p8',
+                name: 'Sạc Dự Phòng Quantum Energy Cell 50000mAh',
+                category: 'accessories',
+                price: 990000,
+                originalPrice: 1500000,
+                rating: 4.5,
+                reviewsCount: 76,
+                image: 'https://images.unsplash.com/photo-1609592424109-dd9892f1b177?auto=format&fit=crop&w=600&q=80',
+                description: 'Trạm sạc pin siêu tốc hiển thị dung lượng pin dạng sóng Neon, hỗ trợ sạc nhanh đồng thời 6 thiết bị.',
+                colors: ['Neon Cyan', 'Matte Black'],
+                specs: { 'Dung lượng': '50,000mAh', 'Công suất': '240W GaN Fast Charge', 'Màn hình': 'Cyber LED Gauge' }
+            }
+        ];
+
+        // State Management
+        let cart = [];
+        let wishlist = [];
+        let currentCategory = 'all';
+        let appliedDiscount = 0;
+
+        // Initialize App
+        window.addEventListener('DOMContentLoaded', () => {
+            renderProducts(productsData);
+            startFlashSaleCountdown();
+
+            // Setup audio hover trigger for buttons
+            document.querySelectorAll('button, a').forEach(el => {
+                el.addEventListener('mouseenter', () => playSound('hover'));
+            });
+        });
+
+        // ==================== PRODUCT RENDER & FILTERS ====================
+        function renderProducts(products) {
+            const grid = document.getElementById('productsGrid');
+            const empty = document.getElementById('emptyState');
+
+            if (products.length === 0) {
+                grid.innerHTML = '';
+                empty.classList.remove('hidden');
+                return;
+            }
+
+            empty.classList.add('hidden');
+            grid.innerHTML = products.map(p => {
+                const isWishlisted = wishlist.includes(p.id);
+                return `
+                <div class="group relative glass-panel rounded-xl border border-cyber-border/80 hover:border-cyber-cyan/80 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-neon-cyan flex flex-col justify-between overflow-hidden">
+                    
+                    <!-- Top Badge & Wishlist -->
+                    <div class="relative h-52 overflow-hidden bg-cyber-dark/50 p-4">
+                        <span class="absolute top-3 left-3 z-10 px-2 py-0.5 rounded text-[10px] font-orbitron font-bold bg-cyber-pink text-white uppercase tracking-wider">
+                            -${Math.round((1 - p.price/p.originalPrice) * 100)}% OFF
+                        </span>
+
+                        <button onclick="toggleWishlist('${p.id}')" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-cyber-black/70 border border-cyber-border hover:border-cyber-pink flex items-center justify-center transition-all">
+                            <i class="${isWishlisted ? 'fa-solid text-cyber-pink' : 'fa-regular text-slate-400'} fa-heart text-sm"></i>
+                        </button>
+
+                        <!-- Image -->
+                        <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500 rounded-lg">
+                    </div>
+
+                    <!-- Content -->
+                    <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
+                        <div>
+                            <div class="flex items-center justify-between text-xs text-slate-400 font-orbitron mb-1">
+                                <span class="uppercase tracking-wider text-cyber-cyan/80">${p.category}</span>
+                                <span class="flex items-center text-cyber-yellow gap-1">
+                                    <i class="fa-solid fa-star text-[10px]"></i> ${p.rating}
+                                </span>
+                            </div>
+                            <h3 onclick="openProductModal('${p.id}')" class="font-orbitron text-sm font-bold text-slate-100 hover:text-cyber-cyan transition-colors cursor-pointer line-clamp-2">
+                                ${p.name}
+                            </h3>
+                        </div>
+
+                        <!-- Price & Actions -->
+                        <div class="pt-2 border-t border-cyber-border/50">
+                            <div class="flex items-baseline gap-2 mb-3 font-orbitron">
+                                <span class="text-base font-black text-cyber-cyan glow-text-cyan">${formatMoney(p.price)}</span>
+                                <span class="text-xs text-slate-500 line-through">${formatMoney(p.originalPrice)}</span>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-2">
+                                <button onclick="openProductModal('${p.id}')" class="py-2 rounded-md bg-cyber-dark border border-cyber-border hover:border-cyber-pink text-slate-300 hover:text-cyber-pink text-xs font-orbitron transition-all">
+                                    Chi Tiết
+                                </button>
+                                <button onclick="addToCart('${p.id}')" class="py-2 rounded-md bg-cyber-cyan/20 border border-cyber-cyan text-cyber-cyan hover:bg-cyber-cyan hover:text-black font-orbitron font-bold text-xs transition-all shadow-neon-cyan flex items-center justify-center gap-1">
+                                    <i class="fa-solid fa-cart-plus text-xs"></i> Thêm
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        // Filtering System
+        function filterCategory(cat) {
+            playSound('click');
+            currentCategory = cat;
+            
+            // Update Tab UI
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('bg-cyber-cyan/10', 'text-cyber-cyan', 'border-cyber-cyan/40');
+                tab.classList.add('text-slate-400', 'border-cyber-border');
+            });
+
+            applyFilters();
+        }
+
+        function applyFilters() {
+            let filtered = [...productsData];
+
+            // Category Filter
+            if (currentCategory !== 'all') {
+                filtered = filtered.filter(p => p.category === currentCategory);
+            }
+
+            // Search Filter
+            const searchVal = document.getElementById('searchInput').value.toLowerCase() || document.getElementById('mobileSearchInput').value.toLowerCase();
+            if (searchVal.trim() !== '') {
+                filtered = filtered.filter(p => p.name.toLowerCase().includes(searchVal) || p.description.toLowerCase().includes(searchVal));
+            }
+
+            // Price Filter
+            const priceVal = document.getElementById('priceFilter').value;
+            if (priceVal === 'under-2m') filtered = filtered.filter(p => p.price < 2000000);
+            else if (priceVal === '2m-5m') filtered = filtered.filter(p => p.price >= 2000000 && p.price <= 5000000);
+            else if (priceVal === 'over-5m') filtered = filtered.filter(p => p.price > 5000000);
+
+            // Sorting
+            const sortVal = document.getElementById('sortBy').value;
+            if (sortVal === 'price-asc') filtered.sort((a,b) => a.price - b.price);
+            else if (sortVal === 'price-desc') filtered.sort((a,b) => b.price - a.price);
+            else if (sortVal === 'rating') filtered.sort((a,b) => b.rating - a.rating);
+
+            renderProducts(filtered);
+        }
+
+        function handleSearch(isMobile = false) {
+            const clearBtn = document.getElementById('clearSearchBtn');
+            const val = isMobile ? document.getElementById('mobileSearchInput').value : document.getElementById('searchInput').value;
+            
+            if (val.length > 0) clearBtn.classList.remove('hidden');
+            else clearBtn.classList.add('hidden');
+
+            applyFilters();
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('mobileSearchInput').value = '';
+            document.getElementById('clearSearchBtn').classList.add('hidden');
+            applyFilters();
+        }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('priceFilter').value = 'all';
+            document.getElementById('sortBy').value = 'popular';
+            filterCategory('all');
+        }
+
+        // ==================== MODAL CHI TIẾT SẢN PHẨM ====================
+        function openProductModal(id) {
+            playSound('click');
+            const product = productsData.find(p => p.id === id);
+            if (!product) return;
+
+            const modal = document.getElementById('productModal');
+            const content = document.getElementById('modalContent');
+
+            content.innerHTML = `
+                <div class="relative rounded-xl overflow-hidden bg-cyber-dark/80 border border-cyber-border p-2 flex items-center justify-center">
+                    <img src="${product.image}" alt="${product.name}" class="w-full h-72 sm:h-80 object-cover rounded-lg">
+                </div>
+
+                <div class="space-y-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-2 text-xs font-orbitron text-cyber-cyan mb-1">
+                            <span class="px-2 py-0.5 rounded bg-cyber-cyan/10 border border-cyber-cyan/30 uppercase">${product.category}</span>
+                            <span>★ ${product.rating} (${product.reviewsCount} Đánh giá)</span>
+                        </div>
+
+                        <h2 class="font-orbitron text-xl font-bold text-white mb-2">${product.name}</h2>
+                        <p class="text-xs text-slate-300 font-sans leading-relaxed mb-4">${product.description}</p>
+
+                        <!-- Price -->
+                        <div class="flex items-baseline gap-3 font-orbitron border-y border-cyber-border/50 py-3 mb-4">
+                            <span class="text-2xl font-black text-cyber-pink glow-text-pink">${formatMoney(product.price)}</span>
+                            <span class="text-sm text-slate-500 line-through">${formatMoney(product.originalPrice)}</span>
+                        </div>
+
+                        <!-- Options -->
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-orbitron text-slate-400 mb-1.5">CHỌN PHIÊN BẢN / MÀU NEON:</label>
+                                <div class="flex flex-wrap gap-2">
+                                    ${product.colors.map((c, i) => `
+                                        <button class="px-3 py-1.5 rounded text-xs font-orbitron border ${i === 0 ? 'border-cyber-cyan text-cyber-cyan bg-cyber-cyan/10' : 'border-cyber-border text-slate-400 hover:border-slate-300'} transition-all">
+                                            ${c}
+                                        </button>
+                                    `).join('')}
+                                </div>
+                            </div>
+
+                            <!-- Specs -->
+                            <div>
+                                <label class="block text-xs font-orbitron text-slate-400 mb-1.5">THÔNG SỐ KỸ THUẬT:</label>
+                                <div class="grid grid-cols-2 gap-2 text-[11px] font-orbitron bg-cyber-dark p-2.5 rounded border border-cyber-border/60">
+                                    ${Object.entries(product.specs).map(([k, v]) => `
+                                        <div><span class="text-slate-500">${k}:</span> <span class="text-slate-200">${v}</span></div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal Actions -->
+                    <div class="pt-2 flex gap-3">
+                        <button onclick="addToCart('${product.id}'); closeProductModal(); toggleCartDrawer(true);" class="cyber-btn flex-1 py-3 bg-gradient-to-r from-cyber-cyan to-cyber-purple text-cyber-black font-orbitron font-bold text-xs uppercase shadow-neon-cyan">
+                            Mua Ngay
+                        </button>
+                        <button onclick="addToCart('${product.id}')" class="px-4 py-3 bg-cyber-dark border border-cyber-pink text-cyber-pink hover:bg-cyber-pink hover:text-white font-orbitron text-xs rounded transition-all">
+                            <i class="fa-solid fa-cart-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeProductModal() {
+            playSound('click');
+            document.getElementById('productModal').classList.add('hidden');
+        }
+
+        // ==================== CART MANAGEMENT ====================
+        function addToCart(productId) {
+            playSound('success');
+            const product = productsData.find(p => p.id === productId);
+            if (!product) return;
+
+            const existing = cart.find(item => item.id === productId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            updateCartUI();
+        }
+
+        function updateCartQuantity(id, delta) {
+            playSound('click');
+            const item = cart.find(i => i.id === id);
+            if (!item) return;
+
+            item.quantity += delta;
+            if (item.quantity <= 0) {
+                cart = cart.filter(i => i.id !== id);
+            }
+
+            updateCartUI();
+        }
+
+        function removeFromCart(id) {
+            playSound('click');
+            cart = cart.filter(i => i.id !== id);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            // Update Badges
+            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartBadge').innerText = totalCount;
+
+            // Render Items
+            const container = document.getElementById('cartItemsContainer');
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-slate-500 font-orbitron space-y-2">
+                        <i class="fa-solid fa-cart-arrow-down text-4xl text-cyber-border"></i>
+                        <p class="text-xs">Giỏ hàng của bạn đang trống!</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = cart.map(item => `
+                    <div class="flex items-center gap-3 p-3 glass-panel rounded-lg border border-cyber-border/60">
+                        <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded border border-cyber-border">
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-orbitron text-xs font-bold text-white truncate">${item.name}</h4>
+                            <div class="text-xs font-orbitron text-cyber-cyan mt-1">${formatMoney(item.price)}</div>
+                            
+                            <!-- Quantity Controls -->
+                            <div class="flex items-center gap-2 mt-2">
+                                <button onclick="updateCartQuantity('${item.id}', -1)" class="w-5 h-5 bg-cyber-dark border border-cyber-border rounded text-xs flex items-center justify-center text-slate-300 hover:border-cyber-pink">-</button>
+                                <span class="font-orbitron text-xs text-white px-1">${item.quantity}</span>
+                                <button onclick="updateCartQuantity('${item.id}', 1)" class="w-5 h-5 bg-cyber-dark border border-cyber-border rounded text-xs flex items-center justify-center text-slate-300 hover:border-cyber-cyan">+</button>
+                            </div>
+                        </div>
+                        <button onclick="removeFromCart('${item.id}')" class="text-slate-500 hover:text-cyber-pink text-sm p-1">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                `).join('');
+            }
+
+            // Calculate Totals
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const discountAmount = subtotal * appliedDiscount;
+            const grandTotal = subtotal - discountAmount;
+
+            document.getElementById('subtotalPrice').innerText = formatMoney(subtotal);
+            document.getElementById('discountPrice').innerText = `-${formatMoney(discountAmount)}`;
+            document.getElementById('totalPrice').innerText = formatMoney(grandTotal);
+        }
+
+        function toggleCartDrawer(open) {
+            playSound('click');
+            const drawer = document.getElementById('cartDrawer');
+            const backdrop = document.getElementById('cartBackdrop');
+
+            if (open) {
+                drawer.classList.remove('translate-x-full');
+                backdrop.classList.remove('hidden');
+            } else {
+                drawer.classList.add('translate-x-full');
+                backdrop.classList.add('hidden');
+            }
+        }
+
+        function applyCoupon() {
+            playSound('click');
+            const input = document.getElementById('couponInput').value.trim().toUpperCase();
+            const msg = document.getElementById('couponMessage');
+
+            msg.classList.remove('hidden', 'text-cyber-cyan', 'text-cyber-pink');
+
+            if (input === 'NEON2026') {
+                appliedDiscount = 0.10; // 10%
+                msg.innerText = '✓ Mã Voucher Cyber giảm 10% áp dụng thành công!';
+                msg.classList.add('text-cyber-cyan');
+                playSound('success');
+            } else {
+                appliedDiscount = 0;
+                msg.innerText = '✕ Mã giảm giá không hợp lệ!';
+                msg.classList.add('text-cyber-pink');
+            }
+
+            updateCartUI();
+        }
+
+        function processCheckout() {
+            if (cart.length === 0) {
+                alert('Giỏ hàng trống! Hãy chọn ít nhất một sản phẩm.');
+                return;
+            }
+
+            playSound('success');
+
+            // Trigger Cyber Confetti Celebration
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#00f3ff', '#ff007f', '#9d00ff', '#ffe600']
+                });
+            }
+
+            alert('🚀 THANH TOÁN CYBERPAY THÀNH CÔNG!\nĐơn hàng Cyber của bạn đã được ghi nhận trên hệ thống Blockchain NeonShop.');
+            
+            cart = [];
+            appliedDiscount = 0;
+            document.getElementById('couponInput').value = '';
+            document.getElementById('couponMessage').classList.add('hidden');
+            updateCartUI();
+            toggleCartDrawer(false);
+        }
+
+        // ==================== WISHLIST SYSTEM ====================
+        function toggleWishlist(id) {
+            playSound('click');
+            if (wishlist.includes(id)) {
+                wishlist = wishlist.filter(item => item !== id);
+            } else {
+                wishlist.push(id);
+            }
+
+            // Update Badge
+            const badge = document.getElementById('wishlistBadge');
+            badge.innerText = wishlist.length;
+            if (wishlist.length > 0) badge.classList.remove('scale-0');
+            else badge.classList.add('scale-0');
+
+            applyFilters();
+        }
+
+        function openWishlistModal() {
+            playSound('click');
+            const container = document.getElementById('wishlistItemsContainer');
+            const items = productsData.filter(p => wishlist.includes(p.id));
+
+            if (items.length === 0) {
+                container.innerHTML = `<div class="text-center text-slate-500 font-orbitron py-8 text-xs">Chưa có sản phẩm yêu thích nào.</div>`;
+            } else {
+                container.innerHTML = items.map(p => `
+                    <div class="flex items-center justify-between p-3 glass-panel rounded-lg border border-cyber-pink/30">
+                        <div class="flex items-center gap-3">
+                            <img src="${p.image}" class="w-12 h-12 object-cover rounded">
+                            <div>
+                                <h4 class="font-orbitron text-xs font-bold text-white">${p.name}</h4>
+                                <span class="text-xs font-orbitron text-cyber-pink">${formatMoney(p.price)}</span>
+                            </div>
+                        </div>
+                        <button onclick="addToCart('${p.id}'); closeWishlistModal(); toggleCartDrawer(true);" class="px-3 py-1.5 bg-cyber-pink text-white font-orbitron text-xs rounded hover:bg-cyber-pink/80 transition-all">
+                            Thêm Vào Giỏ
+                        </button>
+                    </div>
+                `).join('');
+            }
+
+            document.getElementById('wishlistModal').classList.remove('hidden');
+        }
+
+        function closeWishlistModal() {
+            playSound('click');
+            document.getElementById('wishlistModal').classList.add('hidden');
+        }
+
+        function openUserModal() {
+            playSound('click');
+            alert('🧑‍🚀 CYBER USER ID: #NEON-9982\nĐiểm thưởng CyberPoints: 1,450 PTS\nHạng thành viên: Neon Platinum Class');
+        }
+
+        // ==================== COUNTDOWN TIMER ====================
+        function startFlashSaleCountdown() {
+            let totalSeconds = 8 * 3600 + 42 * 60 + 15;
+            setInterval(() => {
+                if (totalSeconds <= 0) totalSeconds = 24 * 3600;
+                totalSeconds--;
+
+                const h = Math.floor(totalSeconds / 3600);
+                const m = Math.floor((totalSeconds % 3600) / 60);
+                const s = totalSeconds % 60;
+
+                document.getElementById('cd-hours').innerText = String(h).padStart(2, '0');
+                document.getElementById('cd-minutes').innerText = String(m).padStart(2, '0');
+                document.getElementById('cd-seconds').innerText = String(s).padStart(2, '0');
+            }, 1000);
+        }
+
+        // Utility: Format Currency VND
+        function formatMoney(amount) {
+            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+        }
+    </script>
+</body>
+</html>
